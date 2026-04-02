@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary Colors */
+    --color-primary: #2D5A27; /* Deep forest green */
+    --color-primary-foreground: #FFFFFF; /* white */
+    
+    /* Secondary Colors */
+    --color-secondary: #8B4513; /* Rich earth brown */
+    --color-secondary-foreground: #FFFFFF; /* white */
+    
+    /* Accent Colors */
+    --color-accent: #E67E22; /* Warm orange */
+    --color-accent-foreground: #FFFFFF; /* white */
+    
+    /* Background Colors */
+    --color-background: #FEFEFE; /* Soft white */
+    --color-foreground: #1A1A1A; /* Primary text */
+    
+    /* Surface Colors */
+    --color-card: #F8F9FA; /* Subtle warm gray */
+    --color-card-foreground: #2C3E50; /* Deep blue-gray */
+    --color-popover: #FFFFFF; /* white */
+    --color-popover-foreground: #2C3E50; /* Deep blue-gray */
+    
+    /* Muted Colors */
+    --color-muted: #F8F9FA; /* Subtle warm gray */
+    --color-muted-foreground: #6C757D; /* Medium gray */
+    
+    /* Border & Input */
+    --color-border: rgba(45, 90, 39, 0.15); /* primary/15 */
+    --color-input: #F8F9FA; /* Subtle warm gray */
+    --color-ring: #E67E22; /* Warm orange */
+    
+    /* Status Colors */
+    --color-success: #27AE60; /* Fresh green */
+    --color-success-foreground: #FFFFFF; /* white */
+    --color-warning: #F39C12; /* Amber */
+    --color-warning-foreground: #FFFFFF; /* white */
+    --color-error: #E74C3C; /* Warm red */
+    --color-error-foreground: #FFFFFF; /* white */
+    --color-destructive: #E74C3C; /* Warm red */
+    --color-destructive-foreground: #FFFFFF; /* white */
+    
+    /* Text Colors */
+    --color-text-primary: #2C3E50; /* Deep blue-gray */
+    --color-text-secondary: #6C757D; /* Medium gray */
+    
+    /* Radius */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+  }
+
+  .dark {
+    /* Primary Colors */
+    --color-primary: #3D7A36; /* Lighter forest green */
+    --color-primary-foreground: #FFFFFF; /* white */
+    
+    /* Secondary Colors */
+    --color-secondary: #A0522D; /* Lighter earth brown */
+    --color-secondary-foreground: #FFFFFF; /* white */
+    
+    /* Accent Colors */
+    --color-accent: #F39C12; /* Brighter orange */
+    --color-accent-foreground: #FFFFFF; /* white */
+    
+    /* Background Colors */
+    --color-background: #0F1419; /* Dark base */
+    --color-foreground: rgba(255, 255, 255, 0.88); /* 88% white */
+    
+    /* Surface Colors */
+    --color-card: #1A2332; /* Elevated dark */
+    --color-card-foreground: rgba(255, 255, 255, 0.88); /* 88% white */
+    --color-popover: #2D3748; /* Higher elevation */
+    --color-popover-foreground: rgba(255, 255, 255, 0.88); /* 88% white */
+    
+    /* Muted Colors */
+    --color-muted: #1A2332; /* Elevated dark */
+    --color-muted-foreground: rgba(255, 255, 255, 0.6); /* 60% white */
+    
+    /* Border & Input */
+    --color-border: rgba(163, 163, 163, 0.2); /* neutral-300/20 */
+    --color-input: #1A2332; /* Elevated dark */
+    --color-ring: #F39C12; /* Brighter orange */
+    
+    /* Status Colors */
+    --color-success: #2ECC71; /* Brighter green */
+    --color-success-foreground: #FFFFFF; /* white */
+    --color-warning: #F39C12; /* Amber */
+    --color-warning-foreground: #FFFFFF; /* white */
+    --color-error: #E74C3C; /* Warm red */
+    --color-error-foreground: #FFFFFF; /* white */
+    --color-destructive: #E74C3C; /* Warm red */
+    --color-destructive-foreground: #FFFFFF; /* white */
+    
+    /* Text Colors */
+    --color-text-primary: rgba(255, 255, 255, 0.88); /* 88% white */
+    --color-text-secondary: rgba(255, 255, 255, 0.6); /* 60% white */
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Crimson Text', serif;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.875rem;
+    line-height: 1.25;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  h5 {
+    font-size: 1.125rem;
+    line-height: 1.5;
+  }
+
+  .caption {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    letter-spacing: 0.025em;
+  }
+
+  .data-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      font-size: 15px;
+      line-height: 1.65;
+    }
+  }
+}
+
+@layer utilities {
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+
+  .transition-smooth {
+    transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .transition-bounce {
+    transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .shadow-elevation-sm {
+    box-shadow: 0 2px 4px rgba(45, 90, 39, 0.08);
+  }
+
+  .shadow-elevation-md {
+    box-shadow: 0 6px 12px rgba(45, 90, 39, 0.12);
+  }
+
+  .shadow-elevation-lg {
+    box-shadow: 0 12px 24px rgba(45, 90, 39, 0.14);
+  }
+
+  .shadow-elevation-xl {
+    box-shadow: 0 20px 40px -8px rgba(45, 90, 39, 0.16);
+  }
+
+  .dark .shadow-elevation-sm {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .dark .shadow-elevation-md {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .dark .shadow-elevation-lg {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .dark .shadow-elevation-xl {
+    box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.6);
+  }
+.focus-ring  {
+    @apply outline-none ring-offset-3 ring-ring;
+  }
+.card-base  {
+    @apply bg-card rounded-xl p-8 border shadow-elevation-sm;
+  }
+
+  .button-base {
+    @apply h-12 px-8 rounded-lg transition-smooth;
+  }
+
+  .input-base {
+    @apply h-12 px-4 rounded-lg bg-input border border-border transition-smooth;
+  }
+
+  .text-measure {
+    max-width: 70ch;
+  }
+
+  @media (max-width: 768px) {
+    .card-base {
+      @apply p-5;
+    }
+
+    .button-base {
+      @apply px-5;
+    }
+  }
+}
