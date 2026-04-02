@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import HeroSection from './HeroSection';
 import BenefitsSection from './BenefitsSection';
@@ -8,21 +7,19 @@ import TestimonialsSection from './TestimonialsSection';
 import StatsSection from './StatsSection';
 import CTASection from './CTASection';
 import Footer from './Footer';
+import { useLanguage } from '@/contexts/LanguageContext';
+import Icon from '@/components/ui/AppIcon';
 
 const LandingPageInteractive = () => {
-  const [language, setLanguage] = useState<'en' | 'rw'>('en');
-
-  const toggleLanguage = () => {
-    setLanguage((prev) => (prev === 'en' ? 'rw' : 'en'));
-  };
+  const { language, toggleLanguage, t } = useLanguage();
 
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation Header */}
-      <header className="sticky top-0 z-100 bg-card/95 backdrop-blur-sm shadow-elevation-md">
+      <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm shadow-elevation-md">
         <div className="max-w-7xl mx-auto px-4 lg:px-6">
           <div className="flex items-center justify-between h-16">
-            <Link href="/professional-landing-page" className="flex items-center space-x-3">
+            <Link href="/" className="flex items-center space-x-3">
               <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary">
                 <svg
                   className="w-6 h-6 text-primary-foreground"
@@ -30,55 +27,37 @@ const LandingPageInteractive = () => {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path
-                    d="M12 2L2 7L12 12L22 7L12 2Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2 17L12 22L22 17"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2 12L12 17L22 12"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
               <div>
-                <h1 className="text-xl font-semibold font-heading text-primary">
-                  NutriSmart
-                </h1>
-                <p className="text-xs caption text-muted-foreground">Care Africa</p>
+                <h1 className="text-xl font-semibold font-heading text-primary">{t('app.name')}</h1>
+                <p className="text-xs caption text-muted-foreground">{t('app.tagline')}</p>
               </div>
             </Link>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-3">
               <button
                 onClick={toggleLanguage}
-                className="px-4 py-2 rounded-lg border border-border hover:bg-muted transition-smooth caption"
+                className="flex items-center space-x-1.5 px-3 py-2 rounded-lg border border-border hover:bg-muted transition-smooth text-sm font-medium text-card-foreground"
+                aria-label="Toggle language"
               >
-                {language === 'en' ? 'English' : 'Kinyarwanda'}
+                <Icon name="LanguageIcon" size={16} />
+                <span className="hidden sm:inline">{t('lang.toggle')}</span>
               </button>
               <Link
                 href="/login"
-                className="px-6 py-2 rounded-lg text-primary hover:bg-muted transition-smooth font-medium"
+                className="px-4 py-2 rounded-lg text-primary hover:bg-muted transition-smooth font-medium text-sm"
               >
-                {language === 'en' ? 'Sign In' : 'Injira'}
+                {t('nav.login')}
               </Link>
               <Link
                 href="/user-registration"
-                className="button-base bg-primary text-primary-foreground hover:bg-primary/90"
+                className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-smooth font-medium text-sm"
               >
-                {language === 'en' ? 'Get Started' : 'Tangira'}
+                {t('nav.getStarted')}
               </Link>
             </div>
           </div>
