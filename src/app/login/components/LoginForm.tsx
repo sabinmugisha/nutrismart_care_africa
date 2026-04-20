@@ -166,7 +166,7 @@ const LoginForm = ({ onLanguageChange }: LoginFormProps) => {
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
               className={`input-base w-full pl-12 ${errors.email ? 'border-error focus:ring-error' : 'focus:ring-primary'}`}
-              placeholder="example@nutrismart.rw"
+              placeholder=""
               disabled={isLoading}
             />
           </div>
@@ -192,7 +192,7 @@ const LoginForm = ({ onLanguageChange }: LoginFormProps) => {
               value={formData.password}
               onChange={(e) => handleInputChange('password', e.target.value)}
               className={`input-base w-full pl-12 pr-12 ${errors.password ? 'border-error focus:ring-error' : 'focus:ring-primary'}`}
-              placeholder="••••••••"
+              placeholder=""
               disabled={isLoading}
             />
             <button

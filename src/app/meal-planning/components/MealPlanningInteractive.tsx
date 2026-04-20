@@ -483,7 +483,7 @@ const MealPlanningInteractive = () => {
     };
   };
 
-  const handleMealClick = (meal: Meal, _day?: string, _mealType?: string) => {
+  const handleMealClick = (meal: Meal, _day: string, _mealType: string) => {
     setSelectedMeal(meal);
     setIsModalOpen(true);
   };
@@ -492,8 +492,8 @@ const MealPlanningInteractive = () => {
     console.log(`Add meal for ${day} - ${mealType}`);
   };
 
-  const handleRecipeSelect = (recipe: Meal | { id: string; name: string; image: string; alt: string; category: string; calories: number; protein: number; carbs: number; fats: number; prepTime: number; servings: number; cost: number; difficulty: 'Easy' | 'Medium' | 'Hard'; ingredients: string[]; instructions: string[]; healthConditions: string[]; tags: string[] }) => {
-    setSelectedMeal(recipe as Meal);
+  const handleRecipeSelect = (recipe: Meal) => {
+    setSelectedMeal(recipe);
     setIsModalOpen(true);
   };
 
