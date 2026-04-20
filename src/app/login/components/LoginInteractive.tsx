@@ -2,7 +2,6 @@
 
 import LoginForm from './LoginForm';
 import TrustSignals from './TrustSignals';
-import CredentialsInfo from './CredentialsInfo';
 
 const LoginInteractive = () => {
   return (
@@ -34,7 +33,6 @@ const LoginInteractive = () => {
               </div>
 
               <TrustSignals />
-              <CredentialsInfo />
             </div>
 
             <div className="lg:sticky lg:top-8">

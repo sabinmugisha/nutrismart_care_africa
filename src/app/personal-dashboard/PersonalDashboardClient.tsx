@@ -45,7 +45,7 @@ const PersonalDashboardClient = () => {
             <NotificationCenter />
             <UserContextHeader
               userName={displayName}
-              userRole={profile?.role || 'Individual'}
+              userRole={profile?.role as 'Individual' | 'Healthcare Provider' | 'Institution Admin' | undefined || 'Individual'}
               avatarUrl={profile?.avatar_url || 'https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg'}
             />
           </div>
