@@ -100,7 +100,9 @@ const LoginForm = ({ onLanguageChange }: LoginFormProps) => {
       router.push(isAdmin ? '/admin-portal' : '/personal-dashboard');
       router.refresh();
     } catch (error: any) {
-      setErrors({ general: t('login.error.invalid') });
+      const msg = error?.message || '';
+      const isRateLimit = msg.toLowerCase().includes('rate limit') || msg.toLowerCase().includes('too many');
+      setErrors({ general: isRateLimit ? msg : t('login.error.invalid') });
       setIsLoading(false);
     }
   };
