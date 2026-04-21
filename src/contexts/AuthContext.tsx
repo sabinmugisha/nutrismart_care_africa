@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
+  const lastAuthAttempt = { current: 0 };
 
   useEffect(() => {
     // Listen for auth changes — handles initial session too
@@ -53,6 +54,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Email/Password Sign Up
   const signUp = async (email: string, password: string, metadata: { fullName?: string; avatarUrl?: string } = {}) => {
+    const now = Date.now();
+    if (now - lastAuthAttempt.current < 2000) {
+      throw new Error('Too many requests. Please wait a moment and try again.');
+    }
+    lastAuthAttempt.current = now;
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -75,6 +81,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Email/Password Sign In
   const signIn = async (email: string, password: string) => {
+    const now = Date.now();
+    if (now - lastAuthAttempt.current < 2000) {
+      throw new Error('Too many login attempts. Please wait a moment and try again.');
+    }
+    lastAuthAttempt.current = now;
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
