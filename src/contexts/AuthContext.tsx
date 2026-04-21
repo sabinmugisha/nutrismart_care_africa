@@ -21,26 +21,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const supabase = createClient();
 
   useEffect(() => {
-    // Get initial session — handle invalid/expired refresh tokens gracefully
+    // Listen for auth changes — handles initial session too
+    const {
+      data: { subscription }
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    // Get initial session — handle invalid/expired refresh tokens and rate limits gracefully
     supabase.auth.getSession().then(({ data: { session }, error }) => {
-      if (error && (error as any).code === 'refresh_token_not_found') {
-        // Clear the invalid session silently
-        supabase.auth.signOut().catch(() => {});
+      if (error) {
+        const errCode = (error as any).code || '';
+        const errMsg = error.message || '';
+        if (errCode === 'refresh_token_not_found' || errMsg.includes('refresh_token_not_found')) {
+          supabase.auth.signOut().catch(() => {});
+        }
+        // For rate limit or other errors, just clear loading — onAuthStateChange will handle state
         setSession(null);
         setUser(null);
       } else {
         setSession(session);
         setUser(session?.user ?? null);
       }
-      setLoading(false);
-    });
-
-    // Listen for auth changes
-    const {
-      data: { subscription }
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
       setLoading(false);
     });
 
@@ -60,7 +64,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         emailRedirectTo: `${window.location.origin}/auth/callback`
       }
     });
-    if (error) throw error;
+    if (error) {
+      if (error.message?.toLowerCase().includes('rate limit') || error.status === 429) {
+        throw new Error('Too many requests. Please wait a moment and try again.');
+      }
+      throw error;
+    }
     return data;
   };
 
@@ -70,7 +79,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       email,
       password
     });
-    if (error) throw error;
+    if (error) {
+      if (error.message?.toLowerCase().includes('rate limit') || error.status === 429) {
+        throw new Error('Too many login attempts. Please wait a moment and try again.');
+      }
+      throw error;
+    }
     return data;
   };
 
