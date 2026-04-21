@@ -25,7 +25,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Listen for auth changes — handles initial session too
     const {
       data: { subscription }
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED' && !session) {
+        setSession(null);
+        setUser(null);
+        setLoading(false);
+        return;
+      }
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
@@ -36,10 +42,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (error) {
         const errCode = (error as any).code || '';
         const errMsg = error.message || '';
-        if (errCode === 'refresh_token_not_found' || errMsg.includes('refresh_token_not_found')) {
+        const isInvalidToken =
+          errCode === 'refresh_token_not_found' || errMsg.toLowerCase().includes('refresh token not found') ||
+          errMsg.toLowerCase().includes('invalid refresh token') ||
+          errMsg.toLowerCase().includes('refresh_token_not_found');
+        if (isInvalidToken) {
           supabase.auth.signOut().catch(() => {});
         }
-        // For rate limit or other errors, just clear loading — onAuthStateChange will handle state
         setSession(null);
         setUser(null);
       } else {
