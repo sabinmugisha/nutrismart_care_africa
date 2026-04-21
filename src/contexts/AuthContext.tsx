@@ -21,10 +21,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const supabase = createClient();
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
+    // Get initial session — handle invalid/expired refresh tokens gracefully
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error && (error as any).code === 'refresh_token_not_found') {
+        // Clear the invalid session silently
+        supabase.auth.signOut().catch(() => {});
+        setSession(null);
+        setUser(null);
+      } else {
+        setSession(session);
+        setUser(session?.user ?? null);
+      }
       setLoading(false);
     });
 
