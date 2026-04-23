@@ -15,5 +15,6 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.redirect(`${origin}/login`);
+  // Redirect to login with error message if code exchange fails
+  return NextResponse.redirect(`${origin}/login?error=email_confirmation_failed`);
 }

@@ -43,7 +43,7 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Public routes — accessible without auth
-  const publicPaths = ['/', '/professional-landing-page', '/login', '/user-registration', '/auth'];
+  const publicPaths = ['/', '/professional-landing-page', '/login', '/user-registration', '/auth', '/email-verification-pending'];
   const isPublic = publicPaths.some((p) => pathname === p || pathname.startsWith(p + '/'));
 
   // Protected routes — require authentication
@@ -55,6 +55,16 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
+  }
+
+  // Block email-unverified users from protected routes
+  if (user && isProtected) {
+    const isEmailVerified = !!user.email_confirmed_at;
+    if (!isEmailVerified) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/email-verification-pending';
+      return NextResponse.redirect(url);
+    }
   }
 
   // Admin-only route protection
@@ -73,8 +83,8 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Redirect logged-in users away from login/register
-  if (user && (pathname === '/login' || pathname === '/user-registration')) {
+  // Redirect logged-in verified users away from login/register
+  if (user && user.email_confirmed_at && (pathname === '/login' || pathname === '/user-registration')) {
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('role')

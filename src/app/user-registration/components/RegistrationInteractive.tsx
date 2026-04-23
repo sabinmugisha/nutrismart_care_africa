@@ -535,8 +535,9 @@ const RegistrationInteractive = () => {
         const { error: healthError } = await supabase.from('health_profiles').insert({ user_id: authData.user.id, health_conditions: formData.healthConditions, is_pregnant: formData.isPregnant === 'yes', allergies: formData.allergies, medications: formData.medications, activity_level: formData.activityLevel, dietary_restrictions: formData.dietaryRestrictions, meal_frequency: formData.mealFrequency, cooking_skill: formData.cookingSkill, budget_level: formData.budgetLevel, market_access: formData.marketAccess, preferred_foods: formData.preferredFoods, avoided_foods: formData.avoidedFoods, nutrition_goals: formData.nutritionGoals });
         if (healthError) console.log('Health profile error:', healthError.message);
       }
-      router.push('/personal-dashboard');
-      router.refresh();
+      // Store email for the verification pending page
+      sessionStorage.setItem('pending_verification_email', formData.email);
+      router.push('/email-verification-pending');
     } catch (error: any) {
       setSubmitError(error?.message || 'Registration failed. Please try again.');
       setIsSubmitting(false);
