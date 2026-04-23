@@ -23,6 +23,11 @@ interface UserRecord {
   role: string;
   created_at: string;
   is_active: boolean;
+  phone_number?: string;
+  date_of_birth?: string;
+  gender?: string;
+  location?: string;
+  avatar_url?: string;
 }
 
 interface ProviderRecord {
@@ -95,7 +100,7 @@ const AdminPortalInteractive = () => {
   const loadUsers = async () => {
     const { data, error } = await supabase
       .from('user_profiles')
-      .select('id, full_name, email, role, created_at, is_active')
+      .select('id, full_name, email, role, created_at, is_active, phone_number, date_of_birth, gender, location, avatar_url')
       .order('created_at', { ascending: false })
       .limit(50);
 
@@ -271,58 +276,159 @@ const AdminPortalInteractive = () => {
 
       {/* Users Tab */}
       {activeTab === 'users' && (
-        <div className="bg-card rounded-xl border border-border overflow-hidden">
-          <div className="p-4 border-b border-border">
-            <h3 className="text-lg font-semibold font-heading text-card-foreground">{t('admin.userManagement')}</h3>
-            <p className="text-sm text-muted-foreground">{users.length} total users</p>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-muted/50">
-                <tr>
-                  <th className="text-left px-4 py-3 text-muted-foreground font-medium">Name</th>
-                  <th className="text-left px-4 py-3 text-muted-foreground font-medium hidden md:table-cell">Email</th>
-                  <th className="text-left px-4 py-3 text-muted-foreground font-medium">Role</th>
-                  <th className="text-left px-4 py-3 text-muted-foreground font-medium">Status</th>
-                  <th className="text-left px-4 py-3 text-muted-foreground font-medium">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {users.map((u) => (
-                  <tr key={u.id} className="hover:bg-muted/30 transition-smooth">
-                    <td className="px-4 py-3 font-medium text-card-foreground">{u.full_name || 'N/A'}</td>
-                    <td className="px-4 py-3 text-muted-foreground hidden md:table-cell">{u.email}</td>
-                    <td className="px-4 py-3">
-                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary capitalize">
-                        {u.role}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        u.is_active !== false ? 'bg-success/10 text-success' : 'bg-error/10 text-error'
-                      }`}>
-                        {u.is_active !== false ? t('admin.active') : t('admin.inactive')}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      {u.id !== user?.id && (
-                        <button
-                          onClick={() => handleUserAction(u.id, u.is_active !== false)}
-                          className="text-xs px-3 py-1 rounded-lg border border-border hover:bg-muted transition-smooth text-muted-foreground"
-                        >
-                          {u.is_active !== false ? t('admin.deactivate') : t('admin.approve')}
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-                {users.length === 0 && (
-                  <tr>
-                    <td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">No users found</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+        <div className="space-y-4">
+          <div className="bg-card rounded-xl border border-border overflow-hidden">
+            <div className="p-4 border-b border-border flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold font-heading text-card-foreground">{t('admin.userManagement')}</h3>
+                <p className="text-sm text-muted-foreground">{users.length} total users</p>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-xs px-2 py-1 bg-success/10 text-success rounded-full font-medium">
+                  {users.filter(u => u.is_active !== false).length} Active
+                </span>
+                <span className="text-xs px-2 py-1 bg-error/10 text-error rounded-full font-medium">
+                  {users.filter(u => u.is_active === false).length} Inactive
+                </span>
+              </div>
+            </div>
+            <div className="divide-y divide-border">
+              {users.map((u) => {
+                const initials = (u.full_name || 'U')
+                  .split(' ')
+                  .map((n: string) => n[0])
+                  .join('')
+                  .toUpperCase()
+                  .slice(0, 2);
+                const roleColors: Record<string, string> = {
+                  admin: 'bg-error/10 text-error',
+                  individual: 'bg-primary/10 text-primary',
+                  provider: 'bg-accent/10 text-accent',
+                  institution: 'bg-secondary/10 text-secondary',
+                };
+                const roleColor = roleColors[u.role?.toLowerCase()] || 'bg-muted text-muted-foreground';
+                return (
+                  <div key={u.id} className="p-4 hover:bg-muted/20 transition-smooth">
+                    <div className="flex items-start gap-4">
+                      {/* Profile Icon / Avatar */}
+                      <div className="flex-shrink-0">
+                        {u.avatar_url ? (
+                          <img
+                            src={u.avatar_url}
+                            alt={`${u.full_name || 'User'} profile photo`}
+                            className="w-12 h-12 rounded-full object-cover border-2 border-border"
+                          />
+                        ) : (
+                          <div className="w-12 h-12 rounded-full bg-primary/10 border-2 border-primary/20 flex items-center justify-center">
+                            <span className="text-sm font-bold text-primary">{initials}</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* User Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
+                          <div>
+                            <p className="font-semibold text-card-foreground">{u.full_name || 'N/A'}</p>
+                            <p className="text-sm text-muted-foreground">{u.email}</p>
+                          </div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${roleColor}`}>
+                              {u.role || 'User'}
+                            </span>
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              u.is_active !== false ? 'bg-success/10 text-success' : 'bg-error/10 text-error'
+                            }`}>
+                              {u.is_active !== false ? t('admin.active') : t('admin.inactive')}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Detailed Info Grid */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+                          <div className="flex items-center space-x-1.5">
+                            <Icon name="CalendarIcon" size={14} className="text-muted-foreground flex-shrink-0" />
+                            <div>
+                              <p className="text-xs text-muted-foreground">Joined</p>
+                              <p className="text-xs font-medium text-card-foreground">
+                                {new Date(u.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                              </p>
+                            </div>
+                          </div>
+                          {u.phone_number && (
+                            <div className="flex items-center space-x-1.5">
+                              <Icon name="PhoneIcon" size={14} className="text-muted-foreground flex-shrink-0" />
+                              <div>
+                                <p className="text-xs text-muted-foreground">Phone</p>
+                                <p className="text-xs font-medium text-card-foreground">{u.phone_number}</p>
+                              </div>
+                            </div>
+                          )}
+                          {u.gender && (
+                            <div className="flex items-center space-x-1.5">
+                              <Icon name="UserIcon" size={14} className="text-muted-foreground flex-shrink-0" />
+                              <div>
+                                <p className="text-xs text-muted-foreground">Gender</p>
+                                <p className="text-xs font-medium text-card-foreground capitalize">{u.gender}</p>
+                              </div>
+                            </div>
+                          )}
+                          {u.location && (
+                            <div className="flex items-center space-x-1.5">
+                              <Icon name="MapPinIcon" size={14} className="text-muted-foreground flex-shrink-0" />
+                              <div>
+                                <p className="text-xs text-muted-foreground">Location</p>
+                                <p className="text-xs font-medium text-card-foreground">{u.location}</p>
+                              </div>
+                            </div>
+                          )}
+                          {u.date_of_birth && (
+                            <div className="flex items-center space-x-1.5">
+                              <Icon name="CakeIcon" size={14} className="text-muted-foreground flex-shrink-0" />
+                              <div>
+                                <p className="text-xs text-muted-foreground">Date of Birth</p>
+                                <p className="text-xs font-medium text-card-foreground">
+                                  {new Date(u.date_of_birth).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                </p>
+                              </div>
+                            </div>
+                          )}
+                          <div className="flex items-center space-x-1.5">
+                            <Icon name="IdentificationIcon" size={14} className="text-muted-foreground flex-shrink-0" />
+                            <div>
+                              <p className="text-xs text-muted-foreground">User ID</p>
+                              <p className="text-xs font-medium text-card-foreground font-mono">{u.id.slice(0, 8)}…</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Action */}
+                        {u.id !== user?.id && (
+                          <button
+                            onClick={() => handleUserAction(u.id, u.is_active !== false)}
+                            className={`text-xs px-3 py-1.5 rounded-lg border transition-smooth font-medium ${
+                              u.is_active !== false
+                                ? 'border-error/30 text-error hover:bg-error/10' :'border-success/30 text-success hover:bg-success/10'
+                            }`}
+                          >
+                            {u.is_active !== false ? t('admin.deactivate') : t('admin.approve')}
+                          </button>
+                        )}
+                        {u.id === user?.id && (
+                          <span className="text-xs text-muted-foreground italic">Current admin account</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+              {users.length === 0 && (
+                <div className="px-4 py-12 text-center text-muted-foreground">
+                  <Icon name="UsersIcon" size={40} className="mx-auto mb-3 text-muted-foreground/50" />
+                  <p className="text-sm">No users found</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
