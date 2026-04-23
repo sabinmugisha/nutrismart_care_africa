@@ -11,7 +11,8 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
+      // Redirect to confirmation screen first, then it auto-redirects to `next`
+      return NextResponse.redirect(`${origin}/auth/confirm?next=${encodeURIComponent(next)}`);
     }
   }
 
