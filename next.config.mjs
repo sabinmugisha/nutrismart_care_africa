@@ -31,7 +31,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/login',
+        destination: '/professional-landing-page',
         permanent: false,
       },
     ];
