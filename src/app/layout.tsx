@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: 'Culturally-relevant nutrition solutions for African communities. Personalized meal planning with local ingredients, professional consultations, and institutional programs to combat malnutrition.',
   icons: {
     icon: [
-      { url: '/favicon.ico', type: 'image/x-icon' }
+      { url: '/public/health.png', type: 'image/x-icon' }
     ],
   },
 };
