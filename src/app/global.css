@@ -1,0 +1,31 @@
+@layer components {
+  /* Blob 1 - Complex Pebble */
+  .blob-1 {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  
+  /* Blob 2 - Rounded Pebble */
+  .blob-2 {
+    border-radius: 50% 50% 70% 30% / 30% 70% 50% 50%;
+  }
+
+  /* Blob 3 - Slightly Angular Leaf */
+  .blob-3 {
+    border-radius: 30% 70% 40% 60% / 70% 30% 60% 40%;
+  }
+
+  /* Blob 4 - Tall Organic Form */
+  .blob-4 {
+    border-radius: 60% 40% 30% 70% / 30% 70% 50% 50%;
+  }
+
+  /* Blob 5 - Wide Asymmetric Shape */
+  .blob-5 {
+    border-radius: 50% 50% 70% 30% / 60% 30% 70% 40%;
+  }
+
+  /* Reset utility on hover */
+  .mask-none {
+    border-radius: 0% !important;
+  }
+}

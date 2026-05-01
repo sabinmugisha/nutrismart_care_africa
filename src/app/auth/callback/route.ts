@@ -1,0 +1,21 @@
+import { createClient } from '../../../lib/supabase/server';
+import { NextResponse } from 'next/server';
+import { type NextRequest } from 'next/server';
+
+export async function GET(request: NextRequest) {
+  const { searchParams, origin } = new URL(request.url);
+  const code = searchParams.get('code');
+  const next = searchParams.get('next') ?? '/personal-dashboard';
+
+  if (code) {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (!error) {
+      // Redirect to confirmation screen first, then it auto-redirects to `next`
+      return NextResponse.redirect(`${origin}/auth/confirm?next=${encodeURIComponent(next)}`);
+    }
+  }
+
+  // Redirect to login with error message if code exchange fails
+  return NextResponse.redirect(`${origin}/login?error=email_confirmation_failed`);
+}
