@@ -56,7 +56,7 @@ const NotificationPermissionPrompt = ({ onClose }: NotificationPermissionPromptP
         // Show a test notification
         new Notification('NutriSmart Care Africa', {
           body: 'Notifications enabled! You\'ll receive meal, consultation, and milestone reminders.',
-          icon: '/public/health.png',
+          icon: '/public/favicon.png',
         });
       } else {
         setStep('denied');

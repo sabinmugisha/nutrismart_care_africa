@@ -81,10 +81,7 @@ export default function Navigation() {
           {/* Top bar - increased height (py-2 -> py-3) */}
           <div className="flex justify-between items-center py-3 border-b border-white/[0.08]">
             <div className="flex items-center gap-4">
-              <div className="hidden md:flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-white/40">
-                <Globe size={10} />
-                <span>Pan‑African Network</span>
-              </div>
+              
             </div>
             <div className="flex items-center gap-4">
               {/* Language selector */}
@@ -134,7 +131,7 @@ export default function Navigation() {
             {/* Logo - slightly larger */}
             <Link href="/" className="flex items-center gap-3 group">
               <div className="w-12 h-12 relative flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-                <img src="/health.png" alt="NutriSmart Logo" className="w-full h-full object-contain" />
+                <img src="/favicon.png" alt="NutriSmart Logo" className="w-full h-full object-contain" />
               </div>
               <div>
                 <h1 className="text-xl md:text-2xl font-black tracking-tighter leading-none text-white">NutriSmart</h1>
