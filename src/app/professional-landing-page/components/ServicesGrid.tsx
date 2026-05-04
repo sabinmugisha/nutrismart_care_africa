@@ -1,85 +1,76 @@
+// components/ServicesGrid.tsx
 'use client';
+
 import React from 'react';
+import Link from 'next/link';
+import { 
+  Brain, Smartphone, Bot, Video, ClipboardList, 
+  Building2, Baby, Weight, ShoppingBag, Microscope, ArrowRight
+} from 'lucide-react';
 
 const services = [
-  { 
-    title: "AI-Powered Nutrition", 
-    desc: "Adaptive, culturally relevant meal plans based on health profiles.", 
-    img: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&q=80&w=800",
-    size: "md:col-span-2 md:row-span-2",
-    mask: "blob-1" 
-  },
-  { 
-    title: "Mobile Apps", 
-    desc: "Daily tracking and grocery management.", 
-    img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=600",
-    size: "md:col-span-1 md:row-span-1",
-    mask: "blob-2"
-  },
-  { 
-    title: "AI Nutrition Coach", 
-    desc: "24/7 real-time dietary guidance.", 
-    img: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=600",
-    size: "md:col-span-1 md:row-span-1",
-    mask: "blob-3"
-  },
-  { 
-    title: "Tele-Nutrition", 
-    desc: "Virtual consultations with licensed specialists.", 
-    img: "https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?auto=format&fit=crop&q=80&w=800",
-    size: "md:col-span-1 md:row-span-2",
-    mask: "blob-4"
-  },
-  { 
-    title: "Provider Dashboards", 
-    desc: "Secure clinical monitoring portals.", 
-    img: "https://images.unsplash.com/photo-1504868584819-f8eec0421731?auto=format&fit=crop&q=80&w=800",
-    size: "md:col-span-2 md:row-span-1",
-    mask: "blob-5"
-  }
+  { slug: 'ai-powered-nutrition-platforms', title: 'AI-Powered Nutrition Platforms', icon: Brain, shortDesc: 'Smart algorithms that learn, adapt, and personalize meal plans to your health profile and local foods.' },
+  { slug: 'mobile-applications', title: 'Mobile Applications', icon: Smartphone, shortDesc: 'Wellness at your fingertips – daily meal planning, grocery lists, behavior nudges, and chronic disease tracking.' },
+  { slug: 'ai-nutrition-coach', title: 'AI Nutrition Coach', icon: Bot, shortDesc: 'Your personal dietitian, 24/7 – instant answers, meal suggestions, and motivational support.' },
+  { slug: 'tele-nutrition-services', title: 'Tele-Nutrition Services', icon: Video, shortDesc: 'Expert care from anywhere – connect with licensed dietitians via secure video consultations.' },
+  { slug: 'healthcare-provider-dashboards', title: 'Healthcare Provider Dashboards', icon: ClipboardList, shortDesc: 'Data-driven insights for clinical teams – monitor patient diet quality, adherence, and outcomes.' },
+  { slug: 'workplace-wellness', title: 'Workplace Wellness for Institutions', icon: Building2, shortDesc: 'Corporate nutrition solutions – canteen audits, smart meal programs, and wellness challenges.' },
+  { slug: 'early-childhood-nutrition', title: 'Early Childhood Nutrition Support', icon: Baby, shortDesc: 'Support for daycare centers & crèches – age-specific meal plans, growth monitoring, and caregiver training.' },
+  { slug: 'weight-management', title: 'Weight Management', icon: Weight, shortDesc: 'Personalized, sustainable, and effective – healthy weight loss or gain with AI-based coaching.' },
+  { slug: 'nutrimarket', title: 'NutriMarket – Food Access', icon: ShoppingBag, shortDesc: 'Shop smart, eat local – connect with verified vendors for affordable, nutritious products.' },
+  { slug: 'research-development', title: 'Research & Development', icon: Microscope, shortDesc: 'Evidence at the heart of innovation – studies, data analytics, and policy advocacy.' }
 ];
 
 export default function ServicesGrid() {
   return (
-    <section id="services" className="py-24 bg-white">
+    <section className="py-24 bg-white">
       <div className="container mx-auto px-4 max-w-7xl">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-black text-slate-900 tracking-tight">System Capabilities</h2>
-          <p className="text-green-600 font-bold uppercase tracking-widest text-sm mt-2">Organic Innovation</p>
-          <div className="w-16 h-1 bg-green-600 mx-auto mt-4 rounded-full"></div>
+        {/* Section header - improved alignment */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <p className="text-green-600 font-bold uppercase tracking-wider text-sm mb-3">Digital Health & Health-Tech</p>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+            Smart Solutions for{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">
+              Personalized Wellness
+            </span>
+          </h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-green-600 to-emerald-600 mx-auto mt-6 rounded-full"></div>
+          <p className="text-slate-500 text-lg mt-6">
+            Comprehensive nutrition solutions powered by AI and expert knowledge
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 auto-rows-[280px]">
-          {services.map((s, i) => (
-            <div 
-              key={i} 
-              className={`group relative overflow-hidden rounded-[2.5rem] bg-gray-50 border border-gray-100 shadow-sm transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-2 hover:bg-white ${s.size}`}
-            >
-              {/* THE FLUID MASK - Fixed Syntax */}
-              <div className="absolute inset-0 p-3 group-hover:p-0 transition-all duration-500">
-                 <img 
-                    src={s.img} 
-                    alt={s.title}
-                    className={`w-full h-full object-cover transition-all duration-700 ${s.mask} group-hover:rounded-[2.5rem]`}
-                  />
-              </div>
-
-              <div className="absolute inset-0 bg-gradient-to-t from-green-950/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-              <div className="absolute bottom-0 left-0 p-8 w-full max-w-full z-10">
-                <h3 className="text-xl font-bold text-white mb-2 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 truncate max-w-full">
-                  {s.title}
+        {/* Grid - improved card design */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((service) => {
+            const Icon = service.icon;
+            return (
+              <div
+                key={service.slug}
+                className="group relative bg-white rounded-2xl border border-slate-200 p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-green-200 flex flex-col h-full"
+              >
+                {/* Icon with gradient background */}
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-100 to-emerald-100 flex items-center justify-center mb-5 group-hover:from-green-600 group-hover:to-emerald-600 transition-colors duration-300">
+                  <Icon size={28} className="text-green-600 group-hover:text-white transition-colors" />
+                </div>
+                
+                <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-green-700 transition-colors">
+                  {service.title}
                 </h3>
-                <p className="text-green-100 text-sm transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-100 truncate max-w-full md:line-clamp-2 md:whitespace-normal">
-                  {s.desc}
+                
+                <p className="text-slate-500 leading-relaxed mb-6 flex-grow">
+                  {service.shortDesc}
                 </p>
+                
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="inline-flex items-center gap-2 text-green-600 font-semibold text-sm hover:gap-3 transition-all mt-auto pt-2 border-t border-slate-100 group-hover:border-green-200"
+                >
+                  Learn More <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
-
-              <div className="absolute top-6 right-6 w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center font-bold text-lg opacity-100 group-hover:opacity-0 transition-opacity z-20">
-                 +
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

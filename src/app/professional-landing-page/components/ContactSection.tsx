@@ -1,11 +1,18 @@
+// components/ContactSection.tsx
 'use client';
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, MapPin, Mail, Globe, Send, Sparkles, Zap } from 'lucide-react';
+import { 
+  CheckCircle, MapPin, Mail, Globe, Send, Sparkles, 
+  PhoneCall, Building, ShieldCheck, Download 
+} from 'lucide-react';
+import Link from 'next/link';
 
 export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [demoRequested, setDemoRequested] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,15 +23,20 @@ export default function ContactSection() {
     }, 2000);
   };
 
+  const handleDemoRequest = () => {
+    setDemoRequested(true);
+    // You can add a scroll to form or open a modal here
+    setTimeout(() => setDemoRequested(false), 3000);
+  };
+
   return (
     <section id="contact" className="w-full bg-white relative overflow-hidden min-h-screen flex items-center">
       
-      {/* FULL WIDTH LAYOUT WITHOUT IMAGE */}
       <div className="w-full flex flex-col lg:flex-row items-stretch min-h-screen">
         
         {/* LEFT: THE BRAND ANCHOR (Deep Forest Green) */}
         <div className="lg:w-[40%] bg-[#0f2619] relative p-12 md:p-24 flex flex-col justify-between overflow-hidden">
-          {/* Abstract Geometric Background (The "Engine" Look) */}
+          {/* Abstract background (same as before) */}
           <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
             <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
               <defs>
@@ -38,8 +50,6 @@ export default function ContactSection() {
           <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-green-500/20 blur-[120px] rounded-full" />
 
           <div className="relative z-10">
-            
-
             <h3 className="text-5xl md:text-6xl font-serif text-white leading-none tracking-tighter mb-8">
               Let's build <br /> 
               <span className="text-green-400">the future.</span>
@@ -49,7 +59,27 @@ export default function ContactSection() {
             </p>
           </div>
 
-          <div className="relative z-10 space-y-8">
+          {/* PARTNER CTA - New Section */}
+          <div className="relative z-10 mt-12 space-y-6 bg-white/5 rounded-3xl p-6 border border-white/10">
+            <h4 className="text-white font-bold flex items-center gap-2">
+              <Building size={18} className="text-green-400" /> 
+              Partner With Us
+            </h4>
+            <ul className="space-y-3 text-sm text-green-100/70">
+              <li className="flex items-center gap-2"><CheckCircle size={14} className="text-green-400"/> Hospitals & Private Clinics</li>
+              <li className="flex items-center gap-2"><CheckCircle size={14} className="text-green-400"/> Corporate Wellness Programs</li>
+              <li className="flex items-center gap-2"><CheckCircle size={14} className="text-green-400"/> Health Insurance Providers</li>
+              <li className="flex items-center gap-2"><CheckCircle size={14} className="text-green-400"/> NGOs & Development Agencies</li>
+            </ul>
+            <button 
+              onClick={handleDemoRequest}
+              className="w-full py-2 bg-green-600 hover:bg-green-500 text-white rounded-xl text-sm font-bold transition-colors"
+            >
+              {demoRequested ? 'Thank you! We’ll contact you soon.' : 'Request a Demo →'}
+            </button>
+          </div>
+
+          <div className="relative z-10 space-y-8 mt-8">
             {[
               { icon: MapPin, label: "Kigali, Rwanda", sub: "Regional HQ" },
               { icon: Mail, label: "info@nutrismartcare.com", sub: "Official Inquiry" },
@@ -68,7 +98,7 @@ export default function ContactSection() {
           </div>
         </div>
 
-        {/* RIGHT: THE HIGH-END FORM (Soft Slate/White) */}
+        {/* RIGHT: THE HIGH-END FORM */}
         <div className="lg:w-[60%] p-12 md:p-24 lg:p-32 bg-slate-50 flex flex-col justify-center">
           <div className="max-w-2xl mx-auto w-full">
             
@@ -129,6 +159,20 @@ export default function ContactSection() {
                 )}
               </button>
             </form>
+
+            {/* Success message with download link */}
+            {isSuccess && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-8 p-6 bg-green-50 rounded-2xl text-center"
+              >
+                <p className="text-green-800 font-bold mb-2">Thank you for reaching out!</p>
+                <Link href="/free-guide.pdf" className="inline-flex items-center gap-2 text-green-700 underline text-sm">
+                  <Download size={14} /> Download your free 7-Day African Superfood Meal Plan
+                </Link>
+              </motion.div>
+            )}
 
             <div className="mt-20 pt-10 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 opacity-40">
                <p className="text-[9px] font-bold text-slate-400 tracking-[0.3em] uppercase">© 2026 NutriSmart Care Africa</p>

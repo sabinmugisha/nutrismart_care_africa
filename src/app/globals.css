@@ -1,0 +1,75 @@
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Professional design tokens */
+
+
+
+
+:root {
+  --container-padding: 1rem;
+  --section-spacing: 6rem;
+  --card-radius: 1.5rem;
+  --transition-default: all 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --container-padding: 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --container-padding: 2rem;
+    --section-spacing: 8rem;
+  }
+}
+
+/* Better focus outlines */
+*:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+
+/* Consistent container class (if not using Tailwind's container) */
+.container-professional {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+
+
+
+/* Prevents fixed header from covering anchor targets */
+html {
+  scroll-padding-top: 100px;
+  scroll-behavior: smooth;
+}
+
+/* Better focus outline for accessibility */
+*:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+
+/* Remove default margins that cause white space around video */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Ensure any container that wraps the hero has no padding/margin */
+.hero-wrapper {
+  margin: 0;
+  padding: 0;
+}
